@@ -1,0 +1,602 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "BarberShop API",
+    "description": "Web page designed so that clients can schedule appointments and choose a barber",
+    "contact": {
+      "email": "yhon8a@hotmail.com"
+    },
+    "license": {
+      "name": "yhon duarte"
+    },
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:3002/api/"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "return a list of users",
+        "responses": {
+          "200": {
+            "description": "returns an array of objects with the properties name, last_name, rol,email, id and phone.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "barber name"
+                      },
+                      "last_name": {
+                        "type": "string",
+                        "description": "barber lastname"
+                      },
+                      "rol": {
+                        "enum": [
+                          "user",
+                          "superUser"
+                        ],
+                        "description": "user | superUser"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "barber email for authentication"
+                      },
+                      "id": {
+                        "type": "integer",
+                        "description": "database generated identifier"
+                      },
+                      "phone": {
+                        "type": "integer",
+                        "description": "barber phone number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "insert a barber in the database",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "barber name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "barber lastname"
+                  },
+                  "rol": {
+                    "enum": [
+                      "user",
+                      "superUser"
+                    ],
+                    "description": "user | superUser"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "barber email for authentication"
+                  },
+                  "phone": {
+                    "type": "integer",
+                    "description": "barber phone number"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "secrect password for user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user added to system"
+          }
+        }
+      },
+      "put": {
+        "summary": "update a barber",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "barber name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "barber lastname"
+                  },
+                  "rol": {
+                    "enum": [
+                      "user",
+                      "superUser"
+                    ],
+                    "description": "user | superUser"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "barber email for authentication"
+                  },
+                  "phone": {
+                    "type": "integer",
+                    "description": "barber phone number"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "secrect password for user"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "description": "is the id generated in the database"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user updated successfully"
+          }
+        }
+      }
+    },
+    "/users/{userid}": {
+      "get": {
+        "summary": "return an user for his id",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "description": "user id generated in the database",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns an object from the database, with the information of the registered barber",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "barber name"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "barber lastname"
+                    },
+                    "rol": {
+                      "enum": [
+                        "user",
+                        "superUser"
+                      ],
+                      "description": "user | superUser"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "barber email for authentication"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "description": "database generated identifier"
+                    },
+                    "phone": {
+                      "type": "integer",
+                      "description": "barber phone number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "removes the barber's record by his id",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "description": "user id generated in the database",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "removes the barber's record by his id"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "login a user",
+        "requestBody": {
+          "description": "generate a BearerAuth token for editing and deleting users",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "barber email for authentication"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "secrect password for user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "genera el token (solo los superUser pueden editar y borrar datos)"
+          },
+          "401": {
+            "description": "invalid data"
+          }
+        }
+      }
+    },
+    "/disabled": {
+      "get": {
+        "summary": "return a list of disabled days",
+        "responses": {
+          "200": {
+            "description": "returns an array of objects with the days that the barbers will not be available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "start_date": {
+                        "type": "string",
+                        "description": "permission start date and time returned in zulu format"
+                      },
+                      "end_date": {
+                        "type": "string",
+                        "description": "permission end date and time returned in zulu format"
+                      },
+                      "fk_user": {
+                        "type": "integer",
+                        "description": "its value will be the id of the barber that declares its unavailable"
+                      },
+                      "id": {
+                        "type": "integer",
+                        "description": "availability identifier generated in the database"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "insert a record of diabled days",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "start_date": {
+                    "type": "string",
+                    "description": "permit start date and time formart 'YY/MM/DD HH:MM'"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "description": "permit end date formart 'YY/MM/DD HH:MM'"
+                  },
+                  "fk_user": {
+                    "type": "integer",
+                    "description": "barber id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "disabled days registereds"
+          }
+        }
+      }
+    },
+    "/disabled/{id}": {
+      "get": {
+        "summary": "declaration of the day a barber will not be",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id that was generated in the database to record the days not available",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns an object with the start date, the end date, the barber that will be unavailable and the id generated by the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "type": "string",
+                      "description": "permission start date and time returned in 'zulu' format"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "description": "permission end date and time returned in 'zulu' format"
+                    },
+                    "fk_user": {
+                      "type": "integer",
+                      "description": "its value will be the id of the barber that declares its unavailable"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "description": "availability identifier generated in the database"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "removes the disabled days record by his id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "user id generated in the database",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "removed from database"
+          }
+        }
+      }
+    },
+    "/reservations": {
+      "get": {
+        "summary": "returns an array with the registered appointments",
+        "responses": {
+          "200": {
+            "description": "returns an array of objects with the properties name, last_name, rol,email, id and phone.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "client name"
+                      },
+                      "last_name": {
+                        "type": "string",
+                        "description": "client lastname"
+                      },
+                      "date": {
+                        "type": "string",
+                        "description": "date reservation formart 'zulú'"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "client email for authentication"
+                      },
+                      "id": {
+                        "type": "integer",
+                        "description": "database generated identifier"
+                      },
+                      "phone_client": {
+                        "type": "integer",
+                        "description": "client phone number"
+                      },
+                      "fk_user": {
+                        "type": "integer",
+                        "description": "barber id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "insert a reservation in the database",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "client name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "client lastname"
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "date reservation formart 'YY/MM/DD HH:MM'"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "client email for authentication"
+                  },
+                  "phone_client": {
+                    "type": "integer",
+                    "description": "client phone number"
+                  },
+                  "fk_user": {
+                    "type": "integer",
+                    "description": "barber id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "registered reservation"
+          }
+        }
+      }
+    },
+    "/reservations/{id}": {
+      "get": {
+        "summary": "get a reservation for your id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "user id generated in the database",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get a reservation made by a client by his id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "client name"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "client lastname"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "date reservation formart 'YY/MM/DD HH:MM'"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "client email for authentication"
+                    },
+                    "phone_client": {
+                      "type": "integer",
+                      "description": "client phone number"
+                    },
+                    "fk_user": {
+                      "type": "integer",
+                      "description": "barber id"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "description": "database generated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete a reservation by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "user id generated in the database",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "removed from database"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
