@@ -10,9 +10,9 @@ const success = (req: Request, res: Response, menssages : any ,status: number) =
     })
 }
 
-const error = (req : Request, res: Response, menssages : any , status: number) => {
+const error = (req : Request, res: Response, menssages : any , status: number ) => {
     let statusCode = status || 500
-    let statusMenssages = menssages || 'Internal server error'
+    let statusMenssages = menssages || 'Internal server error';
     res.status(statusCode).send({
         error:false,
         status:statusCode,

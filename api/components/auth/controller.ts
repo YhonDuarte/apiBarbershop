@@ -6,7 +6,7 @@ import error from "../../../utils/error"
 
 const TABLA: tabla = "AUTH"
 
-const injectStore = (store:  any ): any => {
+const injectStore = (store: any ) => {
 
 const login = async (email : string, password : string ) => {
   try {

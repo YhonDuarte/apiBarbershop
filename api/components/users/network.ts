@@ -6,10 +6,11 @@ import secure from "../users/secure"
 const router = express.Router();
 
 router.get('/', async (req: Request, res: Response, next : NextFunction) => {
+ 
     try{ 
         const list = await controller.list()
         response.success(req, res, list, 200) 
-    }catch(err){        
+    }catch(err){   
         next(err)  
     }
 })

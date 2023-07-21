@@ -6,7 +6,7 @@ const config = {
     },
     pgadmin:{
         host:process.env.PG_HOST || '',
-        port:process.env.PG_PORT|| 3001,
+        port:process.env.PG_PORT|| 3000,
         database:process.env.PG_DB || '',
         user:process.env.PG_USER || '',
         password:process.env.PG_PASSWORD || '',

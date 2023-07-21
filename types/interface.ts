@@ -46,7 +46,7 @@ export interface disabled_days {
 }
 
 export interface auth {
-    fk_user: number,
+    fk_user: string | undefined,
     email:string,
     password: string
 }

@@ -7,7 +7,7 @@
       "email": "yhon8a@hotmail.com"
     },
     "license": {
-      "name": "yhon duarte"
+      "name": "Yhon Duarte"
     },
     "version": "1.0.11"
   },
@@ -20,6 +20,9 @@
     "/users": {
       "get": {
         "summary": "return a list of users",
+        "tags": [
+          "user"
+        ],
         "responses": {
           "200": {
             "description": "returns an array of objects with the properties name, last_name, rol,email, id and phone.",
@@ -67,6 +70,9 @@
       },
       "post": {
         "summary": "insert a barber in the database",
+        "tags": [
+          "user"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -113,6 +119,9 @@
       },
       "put": {
         "summary": "update a barber",
+        "tags": [
+          "user"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -170,6 +179,9 @@
     "/users/{userid}": {
       "get": {
         "summary": "return an user for his id",
+        "tags": [
+          "user"
+        ],
         "parameters": [
           {
             "name": "userid",
@@ -225,6 +237,9 @@
       },
       "delete": {
         "summary": "removes the barber's record by his id",
+        "tags": [
+          "user"
+        ],
         "parameters": [
           {
             "name": "userid",
@@ -251,6 +266,9 @@
     "/auth/login": {
       "post": {
         "summary": "login a user",
+        "tags": [
+          "auth"
+        ],
         "requestBody": {
           "description": "generate a BearerAuth token for editing and deleting users",
           "content": {
@@ -284,6 +302,9 @@
     "/disabled": {
       "get": {
         "summary": "return a list of disabled days",
+        "tags": [
+          "disabled"
+        ],
         "responses": {
           "200": {
             "description": "returns an array of objects with the days that the barbers will not be available.",
@@ -320,6 +341,9 @@
       },
       "post": {
         "summary": "insert a record of diabled days",
+        "tags": [
+          "disabled"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -353,6 +377,9 @@
     "/disabled/{id}": {
       "get": {
         "summary": "declaration of the day a barber will not be",
+        "tags": [
+          "disabled"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -397,6 +424,9 @@
       },
       "delete": {
         "summary": "removes the disabled days record by his id",
+        "tags": [
+          "disabled"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -423,6 +453,9 @@
     "/reservations": {
       "get": {
         "summary": "returns an array with the registered appointments",
+        "tags": [
+          "reservations"
+        ],
         "responses": {
           "200": {
             "description": "returns an array of objects with the properties name, last_name, rol,email, id and phone.",
@@ -471,6 +504,9 @@
       },
       "post": {
         "summary": "insert a reservation in the database",
+        "tags": [
+          "reservations"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -516,6 +552,9 @@
     "/reservations/{id}": {
       "get": {
         "summary": "get a reservation for your id",
+        "tags": [
+          "reservations"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -572,6 +611,9 @@
       },
       "delete": {
         "summary": "delete a reservation by its id",
+        "tags": [
+          "reservations"
+        ],
         "parameters": [
           {
             "name": "id",
